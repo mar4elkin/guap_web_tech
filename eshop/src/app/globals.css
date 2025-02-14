@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-background: #121212;
+}
+
+
+body {
+  background: var(--color-background);
+  font-family: Roboto, sans-serif;
+}
+
+h1, h2, h3, h4, h5, p, a, pre {
+  font-family: Roboto, sans-serif;
+}
+
+@layer utilities {
+
+  .clip-your-needful-style {
+
+      clip-path: circle();
+
+  }
+
+}
