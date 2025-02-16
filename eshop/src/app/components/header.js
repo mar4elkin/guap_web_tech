@@ -32,59 +32,34 @@ function MobileMenu() {
     return (
         <>
             <Image
-                className="h-8 self-center justify-self-end"
+                className="self-center justify-self-end cursor-pointer h-8"
                 aria-expanded={isOpen}
                 onClick={() => setIsOpen(!isOpen)}
                 aria-haspopup="true"
                 src={BurgerSVG}
                 style={{
-                    filter: 'invert(100%)',
-                    cursor: 'pointer'
+                    filter: 'invert(100%)'
                 }}
             />
-            {isOpen && (
-                <div
-                    className="absolute right-48 w-80 xl:mt-2 mt-12 origin-top-right bg-highlight rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="menu-button"
-                    ref={dropdownRef}
-                    style={{zIndex: '99'}}
-                >
-                    <div className="py-1" role="none">
-                        <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-text-100 hover:bg-gray-100 hover:text-gray-900"
-                            role="menuitem"
-                        >
-                        Account settings
-                        </a>
-                        <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-text-100 hover:bg-gray-100 hover:text-gray-900"
-                            role="menuitem"
-                        >
-                        Support
-                        </a>
-                        <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-text-100 hover:bg-gray-100 hover:text-gray-900"
-                            role="menuitem"
-                        >
-                        License
-                        </a>
-                        <form method="POST" action="#" role="none">
-                        <button
-                            type="submit"
-                            className="block w-full px-4 py-2 text-sm text-left text-text-100 hover:bg-gray-100 hover:text-gray-900"
-                            role="menuitem"
-                        >
-                            Sign out
-                        </button>
-                        </form>
+            <div className="relative">
+                {isOpen && (
+                    <div
+                        className="absolute right-0 top-full mt-1 w-80 origin-top-right bg-highlight rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+                        role="menu"
+                        ref={dropdownRef}
+                    >
+                        <div className="py-1">
+                            <button
+                                type="submit"
+                                className="block w-full px-4 py-2 text-sm text-left text-text-100 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem"
+                            >
+                                Sign out
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </>
     );
 }
@@ -109,35 +84,31 @@ function ProfileMini() {
     return (
         <>
             <img 
-                className="h-12 self-center justify-self-end clip-your-needful-style" 
+                className="clip-your-needful-style cursor-pointer h-12" 
                 src="https://www.hww.ca/wp-content/uploads/2018/10/Raven-Keith-Williams.jpg" 
                 onClick={() => setIsOpen(!isOpen)}
                 aria-expanded={isOpen}
                 aria-haspopup="true"
-                style={{
-                    cursor: 'pointer'
-                }}
-            />
-            {isOpen && (
-                <div
-                    className="absolute right-32 w-56 xl:mt-2 mt-12 origin-top-right bg-highlight rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="menu-button"
-                    ref={dropdownRef}
-                    style={{zIndex: '99'}}
-                >
-                    <div className="py-1" role="none">
-                        <button
-                            type="submit"
-                            className="block w-full px-4 py-2 text-sm text-left text-text-100 hover:bg-gray-100 hover:text-gray-900"
-                            role="menuitem"
-                        >
-                            Sign out
-                        </button>
+                />
+            <div className="relative"> {/* Добавляем контейнер-якорь */}
+                {isOpen && (
+                    <div
+                        className="absolute right-0 top-full mt-1 w-56 origin-top-right bg-highlight rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+                        role="menu"
+                        ref={dropdownRef}
+                    >
+                        <div className="py-1">
+                            <button
+                                type="submit"
+                                className="block w-full px-4 py-2 text-sm text-left text-text-100 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem"
+                            >
+                                Sign out
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </>
     );
 }
@@ -150,7 +121,7 @@ export default function Header() {
                     <Link href="/"><h1 className="text-4xl font-bold text-text-100">gShop</h1></Link>
                 </div>
                 {/* <SearchBar /> */}
-                <div className="self-center justify-center flex flex-row w-2/6 sm:w-1/6 sm:justify-between justify-around">   
+                <div className="self-center justify-center flex flex-row w-2/6 sm:w-1/6 sm:justify-between justify-around aligin-center">   
                     {/* <h1 className="self-center justify-self-end text-2xl font-medium text-text-100">menu</h1> */}
                     <MobileMenu />
                     <ProfileMini />
