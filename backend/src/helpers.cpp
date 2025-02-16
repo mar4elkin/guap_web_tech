@@ -25,3 +25,28 @@ std::string Helpers::timestamp_uuid(std::string file_ext)
 
     return oss.str();
 }
+
+void Helpers::create_upload_sub_dir(EUploadDir UploadDir, std::filesystem::path _path)
+{
+    switch (UploadDir)
+    {
+    case EUploadDir::Base:
+        std::filesystem::create_directory(upload_base_dir() / _path);
+        break;
+    case EUploadDir::Game:
+        std::filesystem::create_directory(upload_games_base_dir() / _path);
+        break;
+    case EUploadDir::User:
+        std::filesystem::create_directory(upload_users_dir() / _path);
+        break;
+    default:
+        return;
+    }
+}
+
+void Helpers::create_upload_base_dirs()
+{
+    std::filesystem::create_directory(upload_base_dir());
+    std::filesystem::create_directory(upload_games_base_dir());
+    std::filesystem::create_directory(upload_users_dir());
+}
