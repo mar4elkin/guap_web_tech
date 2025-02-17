@@ -1,7 +1,4 @@
-#pragma once
-
-#include <string.h>
-#include <openssl/evp.h>
+#include "str_to_md5.h"
 
 #define DIGEST_LENGTH 16
 
