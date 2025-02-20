@@ -172,6 +172,37 @@ Database::Game MongoManager::getGameById(const bsoncxx::oid &game_id)
     return game;
 }
 
+std::vector<Database::Game> MongoManager::getGames() {
+    std::vector<Database::Game> games;
+    auto coll = _db["games"];
+    auto cursor = coll.find({});
+
+    for (auto&& doc : cursor) { 
+        Database::Game game;
+        
+        game.id = doc["_id"].get_oid().value;
+        game.price = doc["price"].get_double().value;
+        game.title = doc["title"].get_string().value;
+        game.short_description = doc["short_description"].get_string().value;
+
+        auto long_desc = doc["long_description"].get_array().value;
+        for (const auto& item : long_desc) {
+            game.long_description.push_back(std::string(item.get_string().value));
+        }
+
+        game.preview_img = doc["preview_img"].get_string().value;
+
+        auto banners = doc["banner_imgs"].get_array().value;
+        for (const auto& banner : banners) {
+            game.banner_imgs.push_back(std::string(banner.get_string().value));
+        }
+
+        games.push_back(std::move(game));
+    }
+
+    return games;
+}
+
 Database::Game MongoManager::updateGameById(const bsoncxx::oid &game_id, const Database::Game &game)
 {
     auto coll = _db["games"];

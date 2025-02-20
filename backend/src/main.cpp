@@ -112,6 +112,29 @@ int main()
         return res;
     });
 
+    CROW_ROUTE(app, "/games")([&, db]() {
+        crow::json::wvalue response;
+        
+        MongoManager manager_db(db);
+        auto db_games = manager_db.getGames();
+
+        std::vector<crow::json::wvalue> games_list;
+        for (const Database::Game& db_game : db_games) {
+            crow::json::wvalue game;
+            game["price"] = db_game.price;
+            game["text"]["title"] = db_game.title;
+            game["text"]["shortDescription"] = db_game.short_description;
+            game["img"]["previewImg"] = db_game.preview_img;
+            game["img"]["bannerImgs"] = db_game.banner_imgs;
+            
+            games_list.push_back(std::move(game));
+        }
+        
+        response["games"] = std::move(games_list);
+
+        return crow::response(response);
+    });
+
     CROW_ROUTE(app, "/game/<str>")([&, db](std::string index) {
         crow::json::wvalue response;
         
@@ -225,12 +248,6 @@ int main()
             return crow::response(response_error);
         }
         return crow::response(response_error);
-    });
-
-    CROW_ROUTE(app, "/")([](){
-        crow::json::wvalue response;
-        response["message"] = "Received data successfully!";
-        return crow::response(response);
     });
 
     app.port(1488).multithreaded().run();

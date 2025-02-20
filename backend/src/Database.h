@@ -90,6 +90,7 @@ public:
 
     std::optional<bsoncxx::oid> createGame(const Database::Game& game);
     Database::Game getGameById(const bsoncxx::oid& game_id);
+    std::vector<Database::Game> getGames();
     Database::Game updateGameById(const bsoncxx::oid& game_id, const Database::Game &game);
     Database::EPurchaseStatus purchaseGame(const bsoncxx::oid& user_id, const bsoncxx::oid& game_id);
 
