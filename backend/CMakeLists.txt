@@ -18,5 +18,5 @@ file(GLOB SOURCES "src/*.cpp")
 
 add_executable(EShop ${SOURCES})
 
-target_link_libraries(EShop PRIVATE OpenSSL::Crypto mongocxx bsoncxx)
+target_link_libraries(EShop PRIVATE OpenSSL::Crypto mongo::mongocxx_shared mongo::bsoncxx_shared)
 

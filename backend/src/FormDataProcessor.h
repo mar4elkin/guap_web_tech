@@ -4,6 +4,7 @@
 #include "crow.h"
 #include <thread>
 #include <string>
+#include <vector>
 #include <functional>
 #include <filesystem>
 
@@ -16,6 +17,7 @@ public:
     void password(std::string field_name);
     void image(std::string field_name, std::filesystem::path image_base_path);
     void banner_images(std::string prefix, std::filesystem::path image_base_path);
+    std::vector<std::string> banner_images_keys(std::string prefix);
 
 private:
     crow::json::wvalue& _object;

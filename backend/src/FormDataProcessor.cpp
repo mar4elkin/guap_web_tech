@@ -48,6 +48,8 @@ void FormDataProcessor::image(std::string field_name, std::filesystem::path imag
         const auto image_path = image_base_path / Helpers::timestamp_uuid(".jpg");
         std::ofstream out_file(image_path);
 
+        _object[field_name] = std::string(image_path);
+
         out_file << it->second.body;
         out_file.close();
 
@@ -75,4 +77,16 @@ void FormDataProcessor::banner_images(std::string prefix, std::filesystem::path 
             image(_field_name, image_base_path);
         }
     }
+}
+
+std::vector<std::string> FormDataProcessor::banner_images_keys(std::string prefix)
+{
+    std::vector<std::string> keys;
+    for (const auto& part : _view.part_map) {
+        const auto& _field_name = std::string(part.first); 
+        if (_field_name.starts_with(prefix)) {
+            keys.push_back(std::string(_field_name));
+        }
+    }
+    return keys;
 }
