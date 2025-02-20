@@ -48,7 +48,7 @@ void FormDataProcessor::image(std::string field_name, std::filesystem::path imag
         const auto image_path = image_base_path / Helpers::timestamp_uuid(".jpg");
         std::ofstream out_file(image_path);
 
-        _object[field_name] = std::string(image_path);
+        _object[field_name] = Helpers::path_to_url(1488, std::string(image_path));
 
         out_file << it->second.body;
         out_file.close();
@@ -57,14 +57,14 @@ void FormDataProcessor::image(std::string field_name, std::filesystem::path imag
             int width, height, channels;
             unsigned char* img = stbi_load(image_path.c_str(), &width, &height, &channels, 4);
 
-            if (!img) {
-                CROW_LOG_ERROR << "Failed to load image: " << image_path;
-            }
+            // if (!img) {
+            //     CROW_LOG_ERROR << "Failed to load image: " << image_path;
+            // }
             
             stbi_write_jpg(image_path.c_str(), width, height, 4, img, 75);
             stbi_image_free(img);
 
-            CROW_LOG_INFO << "Image processed: " << image_path;
+            //CROW_LOG_INFO << "Image processed: " << image_path;
         }).detach();
     }
 }

@@ -89,6 +89,29 @@ int main()
         }
     });
 
+    // very unsafe, not for prod
+    CROW_ROUTE(app, "/static/<string>/<string>")
+    ([](std::string maindir, std::string filename) {
+        std::filesystem::path path = Helpers::upload_base_dir() / maindir / (filename + ".jpg");
+
+        std::ifstream file(path, std::ios::binary);
+
+        if (!file) {
+            return crow::response(404, "File not found");
+        }
+
+        std::vector<char> buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        std::string file_content(buffer.begin(), buffer.end());
+
+        crow::response res;
+        res.code = 200;
+        res.set_header("Content-Type", "image/jpeg");
+        res.body = std::move(file_content); 
+        res.set_header("Content-Length", std::to_string(res.body.size()));
+
+        return res;
+    });
+
     CROW_ROUTE(app, "/game/<str>")([&, db](std::string index) {
         crow::json::wvalue response;
         

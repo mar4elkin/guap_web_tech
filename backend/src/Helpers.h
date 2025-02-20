@@ -17,6 +17,7 @@ class Helpers {
         static std::string timestamp_uuid(std::string file_ext="");
         static void create_upload_sub_dir(EUploadDir UploadDir, std::filesystem::path _path);
         static void create_upload_base_dirs();
+        static std::string path_to_url(uint16_t port, std::filesystem::path full_path);
 
         // 4:59 AM
         static inline std::filesystem::path upload_base_dir() { 

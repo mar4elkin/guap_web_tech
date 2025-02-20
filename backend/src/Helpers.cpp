@@ -56,3 +56,19 @@ void Helpers::create_upload_base_dirs()
     std::filesystem::create_directory(upload_games_base_dir());
     std::filesystem::create_directory(upload_users_dir());
 }
+
+std::string Helpers::path_to_url(uint16_t port, std::filesystem::path full_path)
+{
+    std::filesystem::path path(full_path);
+
+    if (path.parent_path().empty() || path.stem().empty()) {
+        return "";
+    }
+
+    std::string maindir = path.parent_path().filename().string();
+    std::string filename = path.stem().string();
+
+    std::ostringstream url;
+    url << "http://127.0.0.1:" << port << "/static/" << maindir << "/" << filename;
+    return url.str();
+}
