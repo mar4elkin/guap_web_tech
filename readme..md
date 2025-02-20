@@ -15,16 +15,19 @@ sudo apt-get install libasio-dev
 cmake .. -DCROW_BUILD_EXAMPLES=OFF -DCROW_BUILD_TESTS=OFF
 sudo make install .
 
-## libpqxx
-git clone https://github.com/jtv/libpqxx.git
+## mongodb 
+curl -OL https://github.com/mongodb/mongo-cxx-driver/releases/download/r4.0.0/mongo-cxx-driver-r4.0.0.tar.gz
+tar -xzf mongo-cxx-driver-r4.0.0.tar.gz
+cd mongo-cxx-driver-r4.0.0/build
 
-### libpqxx libs
-sudo apt-get install libpq-dev
-sudo apt-get install pkg-config
+## mongodb install
+cmake ..                                \
+    -DCMAKE_BUILD_TYPE=Release          \
+    -DCMAKE_CXX_STANDARD=20
 
-### libpqxx isntall
-cmake ..
-sudo make install .
+cmake --build .
+sudo cmake --build . --target install
+
 
 ## stb_image
 mkdir stb

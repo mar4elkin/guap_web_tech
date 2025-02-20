@@ -1,4 +1,10 @@
-#include "helpers.h"
+#include "Helpers.h"
+#include "str_to_md5.c"
+
+char* Helpers::str_to_md5_wrapper(std::string str)
+{
+    return str_to_md5(str.c_str());
+}
 
 std::string Helpers::uuid()
 {

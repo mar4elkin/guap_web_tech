@@ -1,54 +1,66 @@
 #pragma once
 
-#include <pqxx/pqxx>
+#include <bsoncxx/builder/stream/document.hpp>
+#include <bsoncxx/json.hpp>
+#include <mongocxx/client.hpp>
+#include <mongocxx/instance.hpp>
+#include <mongocxx/uri.hpp>
+#include <mongocxx/exception/exception.hpp>
+#include <bsoncxx/builder/stream/array.hpp>
+
 #include <optional>
 #include <vector>
-#include <string>
-#include <algorithm>
+
+using namespace bsoncxx::builder::stream;
+using bsoncxx::builder::basic::make_array;
+using bsoncxx::builder::basic::make_document;
+using bsoncxx::builder::basic::kvp;
 
 struct User {
-    int id;
+    bsoncxx::oid id;
     std::string username;
     std::string password;
     std::string profile_image;
-    int money;
-    std::vector<int> games;
+    double money;
+    std::vector<bsoncxx::oid> games;
 };
 
 struct Game {
-    int id;
-    int price;
+    bsoncxx::oid id;
+    double price;
     std::string title;
-    std::string shortDescription;
-    std::string longDescription;
+    std::string short_description;
+    std::vector<std::string> long_description;
     std::string preview_img;
     std::vector<std::string> banner_imgs;
+};
+
+enum class EPurchaseStatus {
+    SUCCESS,
+    NOT_ENOUGH_MONEY,
+    USER_NOT_FOUND,
+    GAME_NOT_FOUND,
+    ERROR
 };
 
 class Database {
 
 private:
-    pqxx::connection conn;
-
-    void createTables();
-
+    mongocxx::instance instance;
+    mongocxx::client client;
+    mongocxx::database db;
 public:
-    Database(const std::string& conn_str = "postgresql://user:pass@localhost/gamedb")
-        : conn(conn_str) {
-        createTables();
+    Database(const std::string& uri, const std::string& db_name): client{mongocxx::uri{uri}}, db{client[db_name]} 
+    {
+        createIndexes();
     }
 
-    // users
-    std::optional<User> createUser(const User& user);
-    std::optional<User> getUserById(int userId);
-    std::optional<User> addGameToUser(int userId, int gameId);
-    std::optional<User> updateUser(const User& user);
-    std::optional<std::vector<Game>> getUserGames(int userId);
+    void createIndexes();
 
-    // games
-    std::optional<Game> createGame(const Game& game);
-    std::optional<Game> getGameByTitle(const std::string& title);
-    std::optional<Game> getGameById(int gameId);
-    std::optional<Game> updateGame(const Game& game);
+    std::optional<bsoncxx::oid> createUser(const User& user);
+    std::optional<User> getUserById(const bsoncxx::oid& user_id);
 
+    std::optional<bsoncxx::oid> createGame(const Game& game);
+    std::optional<Game> getGameById(const bsoncxx::oid& game_id);
+    EPurchaseStatus purchaseGame(const bsoncxx::oid& user_id, const bsoncxx::oid& game_id);
 };

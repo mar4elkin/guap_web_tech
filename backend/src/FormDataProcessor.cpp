@@ -20,7 +20,7 @@ void FormDataProcessor::password(std::string field_name)
     if (it != _view.part_map.end()) {
 
         std::string password = std::string(it->second.body);
-        char* hash = str_to_md5(password.c_str());
+        char* hash = Helpers::str_to_md5_wrapper(password.c_str());
         _object[field_name] = hash;
         free(hash);
     }

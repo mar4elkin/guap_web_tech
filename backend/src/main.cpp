@@ -5,10 +5,9 @@
 #include <chrono>
 #include <sstream>
 #include <cstring>
-#include "Database.h"
-#include "helpers.h"
-#include "str_to_md5.h"
+#include "Helpers.h"
 #include "FormDataProcessor.h"
+#include "Database.h"
 
 int main() 
 {

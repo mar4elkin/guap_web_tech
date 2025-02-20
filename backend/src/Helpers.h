@@ -12,6 +12,7 @@ enum class EUploadDir { Base, Game, User };
 
 class Helpers {
     public:
+        static char* str_to_md5_wrapper(std::string str);
         static std::string uuid();
         static std::string timestamp_uuid(std::string file_ext="");
         static void create_upload_sub_dir(EUploadDir UploadDir, std::filesystem::path _path);
