@@ -1,4 +1,5 @@
 #include "crow.h"
+#include "crow/middlewares/cors.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -18,7 +19,27 @@ int main()
     auto db = conn["guap_db"];
 
     Helpers::create_upload_base_dirs();
-    crow::SimpleApp app;
+    crow::App<crow::CORSHandler> app;
+
+    auto& cors = app.get_middleware<crow::CORSHandler>();
+    cors.global()
+    .origin("http://localhost:3000")  //frontend host
+    .allow_credentials()
+    .headers(
+        "Accept",
+        "Origin",
+        "Content-Type",
+        "Authorization",
+        "Refresh"
+    )
+    .methods(
+        crow::HTTPMethod::GET,
+        crow::HTTPMethod::POST,
+        crow::HTTPMethod::OPTIONS,
+        crow::HTTPMethod::HEAD,
+        crow::HTTPMethod::PUT,
+        crow::HTTPMethod::DELETE
+    );
 
     CROW_ROUTE(app, "/user/singin")
     .methods(crow::HTTPMethod::Post)([&, db](const crow::request& req) {
@@ -38,7 +59,7 @@ int main()
 
         if (!Database::is_empty<Database::User>::check(db_user)) {
             if (MongoManager::compare_creds(db_user.username, body_username) == MongoManager::compare_creds(db_user.password, body_password)) {
-                res_object["_id"] = db_user.id.to_string();
+                res_object["id"] = db_user.id.to_string();
                 res_object["username"] = db_user.username;
                 res_object["password"] = db_user.password;
                 res_object["profile_image"] = db_user.profile_image;
@@ -79,7 +100,7 @@ int main()
         auto user_id = manager_db.createUser(new_user);
 
         if (user_id.has_value()) {
-            res_object["_id"] = user_id->to_string();
+            res_object["id"] = user_id->to_string();
             res_object["status"] = "ok";
             return crow::response(res_object);
         } else {
@@ -121,9 +142,11 @@ int main()
         std::vector<crow::json::wvalue> games_list;
         for (const Database::Game& db_game : db_games) {
             crow::json::wvalue game;
+            game["id"] = std::string(db_game.id.to_string());
             game["price"] = db_game.price;
             game["text"]["title"] = db_game.title;
             game["text"]["shortDescription"] = db_game.short_description;
+            game["text"]["longDescription"] = db_game.long_description;
             game["img"]["previewImg"] = db_game.preview_img;
             game["img"]["bannerImgs"] = db_game.banner_imgs;
             
@@ -142,10 +165,11 @@ int main()
         MongoManager manager_db(db);
         auto db_game = manager_db.getGameById(_id);
 
-        response["_id"] = index;
+        response["id"] = index;
         response["price"] = db_game.price;
         response["text"]["title"] = db_game.title;
         response["text"]["shortDescription"] = db_game.short_description;
+        response["text"]["longDescription"] = db_game.long_description;
         response["img"]["previewImg"] = db_game.preview_img;
         response["img"]["bannerImgs"] = db_game.banner_imgs;
 
