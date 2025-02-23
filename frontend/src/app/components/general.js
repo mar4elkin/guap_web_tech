@@ -35,13 +35,13 @@ export function PreviewItem({ item }) {
             className="w-48 h-80 overflow-hidden flex flex-col m-4" 
             style={{cursor: 'pointer'}}
             onClick={() => 
-                router.push(`/item/${[1]}`)
+                router.push(`/item/${[item.id]}`)
             }
         > 
         {/* w-[205px] h-[280px] */}
             <img 
             className="w-full h-full object-cover rounded-xl" 
-            src={item.img.previewImg} 
+            src={item.img.previewImg ? "https://placehold.co/400x600": item.img.previewImg} 
             alt={item.title || "Preview"} 
             />
             <h1 className="text-xl font-medium text-text-100">{item.text.title}</h1>
@@ -53,7 +53,7 @@ export function PreviewItem({ item }) {
 export function CartItem({ item }) {
     return (
         <div className="bg-paper flex flex-row p-10 rounded-xl mt-6">
-            <img className="w-40 h-64 object-cover rounded-xl" src={item.img.previewImg} />
+            <img className="w-40 h-64 object-cover rounded-xl" src={item.img.previewImg ? "https://placehold.co/400x600": item.img.previewImg}  />
             <div className="flex flex-col  w-4/6 p-4">
                 <h2 className="text-2xl font-medium text-text-100">{item.text.title}</h2>
                 <h3 className="text-2xl font-medium text-text-100">{item.price} RUB</h3>
@@ -86,7 +86,7 @@ export function CartView({ items }) {
                         <h2 className="text-2xl font-medium text-text-100">Цена</h2>
                         <h2 className="text-xl font-tinh text-text-100">{price} RUB</h2>
                     </div>
-                    <Button href={'/item/1'} text={'Купить'} color={'bg-text-100'} />
+                    <Button href={`/`} text={'Купить'} color={'bg-text-100'} />
                 </div>
             </div>
         </div>

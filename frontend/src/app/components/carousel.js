@@ -85,7 +85,7 @@ export function ItemBannerCarousel({items}) {
                     }}
                   >
                     <img
-                      src={item.img.bannerImg}
+                      src={item.img.bannerImgs ? "https://placehold.co/400x600": item.img.bannerImgs}
                       alt="banner"
                       style={{ 
                         width: '100%',
@@ -107,7 +107,7 @@ export function ItemBannerCarousel({items}) {
                               >{item.text.shortDescription}
                           </p>
                         )}
-                        <Button href={'/item/1'} text={'Купить'} color={'bg-text-100'} />
+                        <Button href={`/item/${item.id}`} text={'Купить'} color={'bg-text-100'} />
                       </div>
                     )}
                   </div>

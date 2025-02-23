@@ -1,8 +1,9 @@
 "use client"
 
 import { useState, useRef, useEffect } from 'react';
+import { useAuth } from "../context/AuthContext";
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import BurgerSVG from "../../../public/Burger.svg";
 import SearchSVG from "../../../public/Search.svg";
 import Image from "next/image";
@@ -48,15 +49,33 @@ function MobileMenu() {
                         role="menu"
                         ref={dropdownRef}
                     >
+                        {/* <div className="py-1">
+                            <button
+                                type="submit"
+                                className="block w-full px-4 py-2 text-sm text-left text-text-100 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem"
+                            >
+                                Войти
+                            </button>
+                        </div>
                         <div className="py-1">
                             <button
                                 type="submit"
                                 className="block w-full px-4 py-2 text-sm text-left text-text-100 hover:bg-gray-100 hover:text-gray-900"
                                 role="menuitem"
                             >
-                                Sign out
+                                Зарегистрироваться
                             </button>
                         </div>
+                        <div className="py-1">
+                            <button
+                                type="submit"
+                                className="block w-full px-4 py-2 text-sm text-left text-text-100 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem"
+                            >
+                                Выйти
+                            </button>
+                        </div> */}
                     </div>
                 )}
             </div>
@@ -65,6 +84,8 @@ function MobileMenu() {
 }
 
 function ProfileMini() {
+    const router = useRouter();
+    const { user, isAuthenticated } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
   
@@ -85,27 +106,53 @@ function ProfileMini() {
         <>
             <img 
                 className="clip-your-needful-style cursor-pointer h-12" 
-                src="https://www.hww.ca/wp-content/uploads/2018/10/Raven-Keith-Williams.jpg" 
+                src={user == null ? "https://placehold.co/250x350": user.profile_image} 
                 onClick={() => setIsOpen(!isOpen)}
                 aria-expanded={isOpen}
                 aria-haspopup="true"
                 />
-            <div className="relative"> {/* Добавляем контейнер-якорь */}
+            <div className="relative">
                 {isOpen && (
                     <div
                         className="absolute right-0 top-full mt-1 w-56 origin-top-right bg-highlight rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
                         role="menu"
                         ref={dropdownRef}
                     >
-                        <div className="py-1">
-                            <button
-                                type="submit"
-                                className="block w-full px-4 py-2 text-sm text-left text-text-100 hover:bg-gray-100 hover:text-gray-900"
-                                role="menuitem"
-                            >
-                                Sign out
-                            </button>
-                        </div>
+                        {!isAuthenticated ?
+                            <>
+                                <div className="py-1">
+                                    <button
+                                        type="submit"
+                                        className="block w-full px-4 py-2 text-sm text-left text-text-100 hover:bg-gray-100 hover:text-gray-900"
+                                        role="menuitem"
+                                        onClick={() => router.push("/singin")}
+                                    >
+                                        Войти
+                                    </button>
+                                </div>
+                                <div className="py-1">
+                                    <button
+                                        type="submit"
+                                        className="block w-full px-4 py-2 text-sm text-left text-text-100 hover:bg-gray-100 hover:text-gray-900"
+                                        role="menuitem"
+                                        onClick={() => router.push("/singup")}
+                                    >
+                                        Зарегистрироваться
+                                    </button>
+                                </div>
+                            </>
+                        :
+                            <div className="py-1">
+                                <button
+                                    type="submit"
+                                    className="block w-full px-4 py-2 text-sm text-left text-text-100 hover:bg-gray-100 hover:text-gray-900"
+                                    role="menuitem"
+                                    onClick={() => router.push("/logout")}
+                                >
+                                    Выйти
+                                </button>
+                            </div>
+                        }
                     </div>
                 )}
             </div>
