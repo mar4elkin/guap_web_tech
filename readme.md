@@ -11,15 +11,43 @@
 
 ## Результат
 ![главная страница](images/main_page.png)
+главная страница
+
+
 ![главная страница](images/main_page.png)
+главная страница
+
+
 ![страницы игры](images/item_page.png)
+страницы игры
+
+
 ![выпадающие меню](images/dropdown.png)
+выпадающие меню
+
+
 ![выпадающие меню](images/dropdown_auth.png)
+выпадающие меню
+
+
 ![регистрация](images/register.png)
+регистрация
+
+
 ![регистрация](images/register_uploaded.png)
+регистрация
+
+
 ![логин](images/login.png)
+логин
+
+
 ![корзина](images/cart.png)
+корзина
+
+
 ![слайдер изображений](images/carousel_action.gif)
+слайдер изображений
 
 ## Сборка
 
