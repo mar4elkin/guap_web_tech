@@ -85,7 +85,7 @@ export function ItemBannerCarousel({items}) {
                     }}
                   >
                     <img
-                      src={item.img.bannerImgs ? "https://placehold.co/400x600": item.img.bannerImgs}
+                      src={item.img.bannerImgs ? item.img.bannerImgs : "https://placehold.co/400x600"}
                       alt="banner"
                       style={{ 
                         width: '100%',
