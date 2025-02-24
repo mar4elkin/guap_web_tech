@@ -1,3 +1,4 @@
 backend/include/*/
 build*/
 .vscode
+project_dump.txt
