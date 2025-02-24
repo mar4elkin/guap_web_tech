@@ -40,9 +40,9 @@ export default function Home() {
       {loading ? <div>Loading...</div> : 
         <>
           <ItemBannerCarousel items={convertGamesToCarouselItems(games)} />
-          <Category title={"Category title"} items={games} />
-          <Category title={"Category title"} items={games} />
-          <Category title={"Category title"} items={games} />
+          <Category title={"Лучшие новинки"} items={games} />
+          <Category title={"Лучшее на зимней распродаже"} items={games} />
+          <Category title={"Откройте для себя что-то новое"} items={games} />
         </>
       }
     </>

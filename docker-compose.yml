@@ -31,6 +31,8 @@ services:
       - db 
     networks:
       - guap_bridge
+    volumes:
+      - ./build/upload:/app/upload 
     restart: always
 
   frontend:
