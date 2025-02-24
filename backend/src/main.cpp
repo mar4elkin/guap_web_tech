@@ -15,7 +15,7 @@
 int main() 
 {
     mongocxx::instance inst{};
-    mongocxx::client conn{mongocxx::uri{"mongodb://127.0.0.1:27017/"}};
+    mongocxx::client conn{mongocxx::uri{"mongodb://mongodb:27017/"}};
     auto db = conn["guap_db"];
 
     Helpers::create_upload_base_dirs();
@@ -23,7 +23,7 @@ int main()
 
     auto& cors = app.get_middleware<crow::CORSHandler>();
     cors.global()
-    .origin("http://localhost:3000")  //frontend host
+    .origin("http://localhost")
     .allow_credentials()
     .headers(
         "Accept",

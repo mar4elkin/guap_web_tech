@@ -1,7 +1,9 @@
+version: '3.8' 
+
 services:
-  my-mongodb:
+  db:
     image: mongo:4.2.3-bionic
-    container_name: my-mongodb
+    container_name: mongodb
     ports:
       - 27017:27017
     environment:
@@ -15,12 +17,37 @@ services:
       - mongodb:/data/db
       - mongoconfig:/data/configdb
     networks:
-      - mongo_net
-    
+      - guap_bridge
+    restart: always
+
+  backend: 
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: backend
+    ports:
+      - 1488:1488
+    depends_on:
+      - db 
+    networks:
+      - guap_bridge
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - 80:3000
+    networks:
+      - guap_bridge
+    restart: always
+
 volumes:
   mongodb:
   mongoconfig:
 
 networks:
-  mongo_net:
+  guap_bridge:
     driver: bridge
